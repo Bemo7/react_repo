@@ -96,20 +96,20 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
-  console.log(props);
+function Pizza({ pizzaObj }) {
+  console.log(pizzaObj);
 
-  if (props.pizzaObj.soldOut) {
+  if (pizzaObj.soldOut) {
     return null;
   }
 
   return (
     <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.price}</span>
       </div>
     </li>
   );
@@ -117,18 +117,18 @@ function Pizza(props) {
 
 function Footer() {
   const hour = new Date().getHours();
-  const open = 12;
-  const close = 22;
-  let isOpen = hour >= open && hour <= close;
+  const openHour = 12;
+  const closeHour = 22;
+  let isOpen = hour >= openHour && hour <= closeHour;
   console.log(isOpen);
 
-  // if (hour >= open && hour <= close) alert("We're currently open!");
+  // if (hour >= openHour && hour <= close) alert("We're currently open!");
   // else alert("Sorry we're closed for the day!");
 
   // if (!isOpen) {
   //   return (
   //     <p>
-  //       We're happy to welcome you between {open}:00AM and {close}:00PM
+  //       We're happy to welcome you between {openHour}:00AM and {close}:00PM
   //     </p>
   //   );
   // }
@@ -136,18 +136,28 @@ function Footer() {
   return (
     <footer className="footer">
       {isOpen ? (
-        <div className="order">
-          <p>We're open until {close}:00pm. Come visit us or order online</p>
-          <button className="btn">Order Now!</button>
-        </div>
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
-          We're happy to welcome you between {open}:00AM and {close}:00PM
+          We're happy to welcome you between {openHour}:00AM and {closeHour}
+          :00PM
         </p>
       )}
     </footer>
   );
   // return React.createElement('footer', null, "We're currently open!");
+}
+
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHour}:00AM until {closeHour}:00pm. Come visit us or
+        order online
+      </p>
+      <button className="btn">Order Now!</button>
+    </div>
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
